@@ -1,38 +1,32 @@
-import NotesList from "./components/NotesList";
-import Header from "./components/Header";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import Home from "../pages/Home";
+import NoteAdd from "../pages/NoteAdd";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
+import { getAccessToken } from "../utils/network";
+// import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function AuthLogin() {
+  let auth = getAccessToken();
+  if (!auth) {
+    return <Navigate to="/login" />;
+  }
+  return <Outlet />;
+}
 
 function App() {
-  const notes = [
-    {
-      id: 1,
-      judul: "First Note",
-      text: "This is my first note",
-      date: "01/11/2023",
-    },
-    {
-      id: 2,
-      judul: "Second Note",
-      text: "This is my second note",
-      date: "02/11/2023",
-    },
-    {
-      id: 3,
-      judul: "Third Note",
-      text: "This is my third note",
-      date: "03/11/2023",
-    },
-    {
-      id: 4,
-      judul: "Fourth Note",
-      text: "This is my fourth note",
-      date: "04/11/2023",
-    },
-  ];
   return (
-    <div className="container max-w-[960px] mx-auto px-[15px]">
-      <Header />
-      <NotesList notes={notes} />
-    </div>
+    <>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<AuthLogin />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/add-note" element={<NoteAdd />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
