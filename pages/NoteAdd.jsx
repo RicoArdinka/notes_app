@@ -1,7 +1,7 @@
 import AddNote from "../src/components/AddNote";
 
-function NoteAdd({ handleAddNote }) {
-  return <AddNote handleAddNote={handleAddNote} />;
+function NoteAdd() {
+  return <AddNote />;
 }
 
 export default NoteAdd;

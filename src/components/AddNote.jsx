@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addNote } from "../../utils/network";
 
-function AddNote({ handleAddNote }) {
+function AddNote() {
   const navigate = useNavigate();
   const charLimit = 200;
   const [noteValue, setNoteValue] = useState({
@@ -34,24 +35,27 @@ function AddNote({ handleAddNote }) {
       noteValue.titleNote.trim().length &&
       noteValue.noteText.trim().length > 0
     ) {
-      handleAddNote(noteValue);
+      addNote({ title: noteValue.titleNote, body: noteValue.noteText });
       navigate("/");
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-r from-blue-900 via-cyan-700 to-slate-400 pt-5">
       <form
         onSubmit={handleSaveClick}
-        className="note bg-[#6a8885] rounded-md p-4 min-h-[170px] flex flex-col justify-between mx-6 my-3"
+        className="bg-black bg-opacity-20 rounded-md p-4 min-h-[170px] max-w-[950px] shadow-2xl  flex flex-col justify-between mx-auto"
       >
+        <h1 className="text-2xl font-mono text-white">
+          <center>Add Note</center>
+        </h1>
         <label htmlFor="judul" className="text-white">
           Judul Note
         </label>
         <input
           id="judul"
           type="text"
-          className="border-none resize-none bg-[#e8f1f0] focus:outline-none mb-2"
+          className="border-none resize-none bg-black bg-opacity-25 text-white focus:outline-none mb-2 py-1 px-2"
           placeholder="Judul Note...."
           name="titleNote"
           value={noteValue.titleNote}
@@ -64,7 +68,7 @@ function AddNote({ handleAddNote }) {
           id="isiNote"
           cols="10"
           rows="8"
-          className="border-none resize-none bg-[#e8f1f0] focus:outline-none"
+          className="border-none resize-none bg-black bg-opacity-25 text-white focus:outline-none px-2"
           placeholder="Isi Note...."
           name="noteText"
           value={noteValue.noteText}
@@ -78,7 +82,7 @@ function AddNote({ handleAddNote }) {
             className={`text-white ${
               noteValue.titleNote.length && noteValue.noteText.length > 0
                 ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-slate-600"
+                : "bg-slate-600 pointer-events-none"
             }  border-none rounded-[50px] px-5 py-2.5`}
             type="submit"
           >
